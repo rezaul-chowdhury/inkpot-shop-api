@@ -1,5 +1,4 @@
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToken");
-const CryptoJS = require("crypto-js");
 const router = require('express').Router();
 const Product = require('../models/Product');
 
@@ -14,7 +13,7 @@ router.post('/', verifyTokenAndAdmin, async (req, res) => {
     }
 })
 
-// //UPDATE PRODUCT
+//UPDATE PRODUCT
 router.put('/:id', verifyTokenAndAdmin, async (req, res) => {
     try{
         const updatedProduct = await Product.findByIdAndUpdate(
@@ -76,33 +75,6 @@ router.get('/', async (req, res) => {
         console.log(err)
     }
 })
-
-// // GET USER STATS
-// router.get('/stats', verifyTokenAndAdmin, async (req, res) => {
-//     const date = new Date()
-//     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1))
-//     console.log("Last Year:", lastYear);
-//     try{
-//         const data = await User.aggregate([
-//             {$match: { createdAt: {$gte: lastYear}}},
-//             {
-//                 $project: {
-//                     month: { $month: "$createdAt" },
-//                 },
-//             },
-//             {
-//                 $group: {
-//                     _id: "$month",
-//                     total: { $sum: 1 },
-//                 },
-//             }
-//         ])
-//         console.log("Aggregation Result:", data);
-//         res.status(200).json(data);
-//     } catch (err) {
-//         res.status(500).json(err)
-//     }
-// })
 
 module.exports = router;
 
