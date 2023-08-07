@@ -73,17 +73,19 @@ router.get('/income', verifyTokenAndAdmin, async (req, res) => {
             {
                 $project: {
                     month: {$month: "$createdAt"},
-                    sale: "$amount",
+                    sales: "$amount",
                 },
+            },
+            {
                 $group: {
                     _id: "$month",
-                    total: {$sum: "$sales"}
-                }
-            }
+                    total: {$sum: "$sales"},
+                },
+            },
         ]);
         res.status(200).json(income);
     }catch (err) {
-        req.status(500).json(err)
+        res.status(500).json(err)
     }
 })
 
